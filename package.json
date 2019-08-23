@@ -7,7 +7,7 @@
 		"type": "git",
 		"url": "https://github.com/mozyy/switch-hosts.git"
 	},
-	"version": "1.0.0",
+	"version": "1.0.2",
 	"engines": {
 		"vscode": "^1.37.0"
 	},
@@ -15,7 +15,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:switch-hosts.helloWorld"
+		"onCommand:switch-hosts.helloWorld",
+		"onCommand:switch-hosts.switchHosts"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
@@ -23,6 +24,10 @@
 			{
 				"command": "switch-hosts.helloWorld",
 				"title": "Switch Hosts"
+			},
+			{
+				"command": "switch-hosts.switchHosts",
+				"title": "Switch start"
 			}
 		]
 	},

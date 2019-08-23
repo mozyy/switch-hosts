@@ -87,6 +87,26 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/actions/saveHosts.ts":
+/*!**********************************!*\
+  !*** ./src/actions/saveHosts.ts ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const fs_1 = __webpack_require__(/*! fs */ "fs");
+const path_1 = __webpack_require__(/*! path */ "path");
+exports.saveHosts = (content) => {
+    const sysHostsPath = process.platform === 'win32' ? `${process.env.windir || 'C:\\WINDOWS'}\\system32\\drivers\\etc\\hosts` : '/etc/hosts';
+    fs_1.writeFileSync(path_1.join(String(process.env.HOMEPATH), 'hosts'), content);
+};
+
+
+/***/ }),
+
 /***/ "./src/extension.ts":
 /*!**************************!*\
   !*** ./src/extension.ts ***!
@@ -100,6 +120,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = __webpack_require__(/*! vscode */ "vscode");
+const saveHosts_1 = __webpack_require__(/*! ./actions/saveHosts */ "./src/actions/saveHosts.ts");
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate(context) {
@@ -112,15 +133,40 @@ function activate(context) {
     let disposable = vscode.commands.registerCommand('switch-hosts.helloWorld', () => {
         // The code you place here will be executed every time your command is executed
         // Display a message box to the user
-        vscode.window.showInformationMessage('Hello switch hosts');
+        vscode.window.showInformationMessage('Hello switch hosts123123');
     });
-    context.subscriptions.push(disposable);
+    let disposableSwitchHosts = vscode.commands.registerCommand('switch-hosts.switchHosts', () => {
+        saveHosts_1.saveHosts(`123`);
+    });
+    context.subscriptions.push(disposable, disposableSwitchHosts);
 }
 exports.activate = activate;
 // this method is called when your extension is deactivated
 function deactivate() { }
 exports.deactivate = deactivate;
 
+
+/***/ }),
+
+/***/ "fs":
+/*!*********************!*\
+  !*** external "fs" ***!
+  \*********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("fs");
+
+/***/ }),
+
+/***/ "path":
+/*!***********************!*\
+  !*** external "path" ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("path");
 
 /***/ }),
 
