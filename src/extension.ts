@@ -2,7 +2,9 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-import { saveHosts } from './actions/saveHosts'
+import { saveHosts, selectedConfig } from './actions/hosts'
+import { updateDefaultHosts } from './actions/config'
+import * as path from './actions/path'
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -15,18 +17,28 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('switch-hosts.helloWorld', () => {
+	let disposableSaveConfig = vscode.commands.registerCommand('switch-hosts.saveConfig', ()=>{
 		// The code you place here will be executed every time your command is executed
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello switch hosts123123');
+		saveHosts(context).catch((err: Error)=> {
+			vscode.window.showErrorMessage(err.message)
+		})
 	});
 
-	let disposableSwitchHosts = vscode.commands.registerCommand('switch-hosts.switchHosts', ()=>{
-		saveHosts(`123`)
-	})
 
-	context.subscriptions.push(disposable, disposableSwitchHosts);
+	let disposableSelectedConfig = vscode.commands.registerCommand('switch-hosts.selectedConfig', async () => {
+		selectedConfig(context).catch((err: Error)=> {
+			vscode.window.showErrorMessage(err.message)
+		})
+	});
+
+	let disposableUpdateDefaultHosts = vscode.commands.registerCommand('switch-hosts.updateDefaultHosts', async () => {
+		updateDefaultHosts(context).catch((err: Error)=> {
+			vscode.window.showErrorMessage(err.message)
+		})
+	});
+
+	context.subscriptions.push(disposableSaveConfig, disposableSelectedConfig, disposableUpdateDefaultHosts);
 }
 
 // this method is called when your extension is deactivated

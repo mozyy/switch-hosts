@@ -7,7 +7,8 @@
 		"type": "git",
 		"url": "https://github.com/mozyy/switch-hosts.git"
 	},
-	"version": "1.0.2",
+	"icon": "images/switch.png",
+	"version": "2.1.0",
 	"engines": {
 		"vscode": "^1.37.0"
 	},
@@ -15,21 +16,47 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:switch-hosts.helloWorld",
-		"onCommand:switch-hosts.switchHosts"
+		"onCommand:switch-hosts.saveConfig",
+		"onCommand:switch-hosts.selectedConfig",
+		"onCommand:switch-hosts.updateDefaultHosts"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "switch-hosts.helloWorld",
-				"title": "Switch Hosts"
+				"command": "switch-hosts.saveConfig",
+				"title": "switch-hosts: saveConfig"
 			},
 			{
-				"command": "switch-hosts.switchHosts",
-				"title": "Switch start"
+				"command": "switch-hosts.selectedConfig",
+				"title": "switch-hosts: selectedConfig"
+			},
+			{
+				"command": "switch-hosts.updateDefaultHosts",
+				"title": "switch-hosts: updateDefaultHosts"
 			}
-		]
+		],
+		"configuration": {
+			"title": "switchHosts",
+			"properties": {
+				"switchHosts.config": {
+					"type": "object",
+					"default": {},
+					"items": {
+						"type": "object"
+					},
+					"description": "Switch Hosts all config"
+				},
+				"switchHosts.selected": {
+					"type": "array",
+					"default": [],
+					"items": {
+						"type": "string"
+					},
+					"description": "Switch Hosts selected config"
+				}
+			}
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "webpack --mode production",
@@ -37,9 +64,9 @@
 		"webpack-dev": "webpack --mode development --watch",
 		"test-compile": "tsc -p ./",
 		"compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile",
-    "test": "node ./out/test/runTest.js"
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile",
+		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.1",
@@ -54,5 +81,10 @@
 		"vscode-test": "^1.0.2",
 		"webpack": "^4.39.2",
 		"webpack-cli": "^3.3.7"
+	},
+	"dependencies": {
+		"@types/text-encoding": "0.0.35",
+		"sudo-prompt": "^9.0.0",
+		"text-encoding": "^0.7.0"
 	}
 }
