@@ -7,6 +7,7 @@ import { TextEncoder } from 'text-encoding'
 import * as path from './path'
 import { getDefaultHosts, getSelectedConfig, getConfigHosts, setConfigSelected, getConfigSelected } from './config'
 import { writeElevated } from './file'
+import { clearDNSCache } from './cache'
 
 export const saveHosts = async (context: vscode.ExtensionContext) => {
   const defaultHosts = await getDefaultHosts(context)
@@ -16,9 +17,12 @@ const fileString = selectedConfig ? `${defaultHosts}\n
 ${selectedConfig}
 ` : defaultHosts
   
-  await writeElevated(path.sysHostsPathString, fileString)
-  // TODO: clean hosts cache
-  // vscode.workspace.fs.writeFile(path.sysHostsPath, new TextEncoder('utf-8').encode(fileString))
+  await writeElevated(path.sysHostsPathString, fileString).catch((err: Error) =>{
+    console.log(err)
+    vscode.window.showErrorMessage('write system hosts failed')
+    return Promise.reject(err)
+  })
+  // clearDNSCache()
 }
 
 export const selectedConfig = async (context: vscode.ExtensionContext) => {

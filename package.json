@@ -84,6 +84,7 @@
 	},
 	"dependencies": {
 		"@types/text-encoding": "0.0.35",
+		"chrome-remote-interface": "^0.28.0",
 		"sudo-prompt": "^9.0.0",
 		"text-encoding": "^0.7.0"
 	}

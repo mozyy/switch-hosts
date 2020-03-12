@@ -34,6 +34,8 @@ save system hosts file sudoCommand,
 should use environmentService.cliPath, but not find this.environmentService.
 see [environmentService](https://github.com/microsoft/vscode/blob/21ce78cf25a7a3b82502f0fc9e764e7840b315b3/src/vs/platform/environment/node/environmentService.ts#L50)
 
+fix it: [launchEditor](https://github.com/facebook/create-react-app/blob/cc985d0b00b6f5dd4248aa590f139410177293fc/packages/react-dev-utils/launchEditor.js)
+
 ## Release Notes
 
 ### 1.0.0
