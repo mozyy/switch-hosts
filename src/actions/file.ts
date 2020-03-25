@@ -1,10 +1,12 @@
 import { tmpdir } from 'os';
-import { join } from 'path';
+import { join, dirname } from 'path';
 import { writeFileSync, unlinkSync } from 'fs'
 import { exec } from 'sudo-prompt';
 import * as vscode from 'vscode'
 
-export const sudoPromptCopy = async (source: string, target: string): Promise<void> => {
+import {isWindows, isLinux} from './platform'
+
+const sudoPromptCopy = async (source: string, target: string): Promise<void> => {
 
   // load sudo-prompt module lazy
   // const sudoPrompt = await import('sudo-prompt');
@@ -15,9 +17,9 @@ export const sudoPromptCopy = async (source: string, target: string): Promise<vo
       icns: undefined
     };
 
-    // TODO: 添加 cliPath [`"${this.environmentService.cliPath}"`];
+    // TODO: add cliPath [`"${this.environmentService.cliPath}"`];
     // https://github.com/microsoft/vscode/blob/21ce78cf25a7a3b82502f0fc9e764e7840b315b3/src/vs/platform/environment/node/environmentService.ts#L50
-    const sudoCommand: string[] = [`"${join(vscode.env.appRoot, '..', '..', 'bin', 'code.cmd')}"`];
+    const sudoCommand: string[] = [`"${cliPath}"`];
 
     // if (options && options.overwriteReadonly) {
     //   sudoCommand.push('--file-chmod');
@@ -61,3 +63,53 @@ export const writeElevated = async (path: string, content: string) => {
   // return this.fileService.resolve(resource, { resolveMetadata: true });
 }
 
+const  getPathFromAmdModule = (requirefn: typeof require, relativePath: string): string =>{
+	return getUriFromAmdModule(requirefn, relativePath).fsPath;
+}
+
+const getUriFromAmdModule = (requirefn: any, relativePath: string): vscode.Uri => {
+	return vscode.Uri.parse(requirefn.toUrl(relativePath));
+}
+
+const isBuilt = !process.env['VSCODE_DEV']
+// const appRoot = dirname(getPathFromAmdModule(require, ''))
+const appRoot = process.cwd() // TODO: need check appRoot, see above
+const execPath = process.execPath
+
+
+const getApplicationName = () => {
+  if(vscode.env.appName.toLowerCase().indexOf('insiders') > -1){
+    return 'code-insiders'
+  }
+  return 'code'
+}
+
+const getCLIPath = (execPath: string, appRoot: string, isBuilt: boolean): string => {
+
+	// Windows
+	if (isWindows) {
+		if (isBuilt) {
+			return join(dirname(execPath), 'bin', `${getApplicationName()}.cmd`); // 
+		}
+
+		return join(appRoot, 'scripts', 'code-cli.bat');
+	}
+
+	// Linux
+	if (isLinux) {
+		if (isBuilt) {
+			return join(dirname(execPath), 'bin', `${getApplicationName()}`); // 
+		}
+
+		return join(appRoot, 'scripts', 'code-cli.sh');
+	}
+
+	// macOS
+	if (isBuilt) {
+		return join(appRoot, 'bin', 'code');
+	}
+
+	return join(appRoot, 'scripts', 'code-cli.sh');
+}
+
+const cliPath = getCLIPath(execPath, appRoot, isBuilt)

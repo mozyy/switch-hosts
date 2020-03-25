@@ -7,6 +7,11 @@
 		"type": "git",
 		"url": "https://github.com/mozyy/switch-hosts.git"
 	},
+	"author": {
+		"name": "yang yue",
+		"email": "yy@yyue.dev",
+		"url": "https://github.com/mozyy"
+	},
 	"icon": "images/switch.png",
 	"version": "2.1.0",
 	"engines": {
@@ -34,6 +39,10 @@
 			{
 				"command": "switch-hosts.updateDefaultHosts",
 				"title": "switch-hosts: updateDefaultHosts"
+			},
+			{
+				"command": "switch-hosts.openHostsFile",
+				"title": "switch-hosts: openHostsFile"
 			}
 		],
 		"configuration": {

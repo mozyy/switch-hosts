@@ -27,7 +27,6 @@ export const updateDefaultHosts = async (context: vscode.ExtensionContext) => {
 
 export const getDefaultHosts = async (context: vscode.ExtensionContext) => {
   let defaultHosts = context.globalState.get<string>('default');
-  console.log(vscode)
   // vscode.commands.getCommands().then((r)=>
   //   console.log(r))
   // vscode.commands.executeCommand('workbench.action.files.save').then((r)=>{
@@ -40,25 +39,24 @@ export const getDefaultHosts = async (context: vscode.ExtensionContext) => {
 }
 
 export const getConfigHosts = () => {
-  const configuration = vscode.workspace.getConfiguration(workspaceConfigName)
-  const workspaceConfig = configuration.get('config') as WorkspaceConfig
+  const configuration = getVscodeSwitchHostsConfig()
+  const workspaceConfig = configuration.get<WorkspaceConfig>('config') || {}
   return workspaceConfig
 }
 export const getConfigSelected = () => {
-  const configuration = vscode.workspace.getConfiguration(workspaceConfigName)
-  const selected = configuration.get('selected') as Array<string>
+  const configuration = getVscodeSwitchHostsConfig()
+  const selected = configuration.get<string[]>('selected') || []
   return selected
 }
 export const setConfigSelected = (selected: string[]) => {
-  const configuration = vscode.workspace.getConfiguration(workspaceConfigName)
+  const configuration = getVscodeSwitchHostsConfig()
   return configuration.update('selected', selected)
 }
 
-export const getSelectedConfig = (context: vscode.ExtensionContext) => {
-  const configuration = vscode.workspace.getConfiguration(workspaceConfigName)
-  const selected = configuration.get('selected') as Array<string>
+export const getSelectedConfig = (selected:string[]) => {
+  const configuration = getVscodeSwitchHostsConfig()
   
-  const workspaceConfig = configuration.get('config') as WorkspaceConfig
+  const workspaceConfig = configuration.get<WorkspaceConfig>('config') || {}
   // TODO: reset fail selected
   let selectedConfig = ''
   Object.entries(workspaceConfig).forEach(([configName, configValue])=>{
@@ -70,4 +68,8 @@ ${Object.entries(configValue).map(([domain, ip])=>`${ip} ${domain}`).join('\n')}
   })
 
   return selectedConfig
+}
+
+const getVscodeSwitchHostsConfig = () => {
+  return vscode.workspace.getConfiguration(workspaceConfigName);
 }

@@ -5,6 +5,9 @@ Fast and convenience switch hosts file for vs code.
 ## Features
 
 switch system hosts for development.
+* Fast switching hosts based on multiple configurations.
+* Quickly open system hosts file.
+* Save update system default hosts.
 ![Features](images/features.gif)
 
 <!-- ## Requirements
@@ -55,7 +58,14 @@ Complete basic functions:
 * hosts update default hosts
 * add README features gif
 
------------------------------------------------------------------------------------------------------------
+### 2.2.0
+
+* Support VS code Insiders version
+* add open system hosts file:  
+```Ctrl + Shift + p ```> ``` switch-hosts: openHostsFile ```
+* add saved hosts notification
+
+-------
 
 
-**Enjoy!**
+**Enjoy!😁** 
