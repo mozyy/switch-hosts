@@ -13,7 +13,7 @@
 		"url": "https://github.com/mozyy"
 	},
 	"icon": "images/switch.png",
-	"version": "2.1.0",
+	"version": "2.2.0",
 	"engines": {
 		"vscode": "^1.37.0"
 	},
@@ -23,7 +23,8 @@
 	"activationEvents": [
 		"onCommand:switch-hosts.saveConfig",
 		"onCommand:switch-hosts.selectedConfig",
-		"onCommand:switch-hosts.updateDefaultHosts"
+		"onCommand:switch-hosts.updateDefaultHosts",
+		"onCommand:switch-hosts.openHostsFile"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {

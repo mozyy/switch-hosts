@@ -1,3 +1,4 @@
+English | [简体中文](https://github.com/mozyy/switch-hosts/blob/master/README.cn.md)
 # switch-hosts
 
 Fast and convenience switch hosts file for vs code.

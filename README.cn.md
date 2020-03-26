@@ -1,3 +1,4 @@
+[English](https://github.com/mozyy/switch-hosts/blob/master/README.md) | 简体中文
 # switch-hosts
 
 切换系统hosts的vscode插件

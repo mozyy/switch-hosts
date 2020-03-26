@@ -2,7 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-import { saveHosts, selectedConfig } from './actions/hosts'
+import { saveHosts, selectedConfig, openSysHostsFile } from './actions/hosts'
 import { updateDefaultHosts } from './actions/config'
 import * as path from './actions/path'
 
@@ -38,9 +38,7 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	let disposableOpenHostsFile = vscode.commands.registerCommand('switch-hosts.openHostsFile', async () => {
-		updateDefaultHosts(context).catch((err: Error)=> {
-			vscode.window.showErrorMessage(err.message)
-		})
+		openSysHostsFile()
 	});
 
 	context.subscriptions.push(disposableSaveConfig, disposableSelectedConfig, disposableUpdateDefaultHosts, disposableOpenHostsFile);
